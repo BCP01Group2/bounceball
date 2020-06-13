@@ -343,7 +343,7 @@ void map_load(int stage)
 void tick() {
     for (int i = 0; i < 70; i++) {
         if (eatStar[i]) continue;
-        if (starPoints[i][0] <= x && x <= starPoints[i][0] + 30 && starPoints[i][1] <= y && y <= starPoints[i][1] + 30) {
+        if (starPoints[i][0] <= x + 10 && x - 10 <= starPoints[i][0] + 30 && starPoints[i][1] <= y + 10 && y - 10 <= starPoints[i][1] + 30) {
             eatStar[i] = true;
             hideObject(stars[i]);
         }
@@ -355,40 +355,40 @@ void tick() {
         x += x_speed;
         y += y_speed;
 
-        if (y_speed > -10) y_speed -= G;
+        if (y_speed > -15) y_speed -= G;
 
-        if (x >= 0 && x < 1280 && y - 10 >= 0 && y - 10 < 720 && arr[x / 40][(720 - y + 10) / 40] != 0) {
+        if (x >= 0 && x < 1280 && y - 10 > 0 && y - 10 <= 720 && arr[x / 40][(720 - y + 10) / 40] != 0) {
             y = 720 - (720 - y + 10) / 40 * 40 + 10;
             y_speed = player_state == STATE::YELLOW ? 9 : 13;
         }
-        if (x >= 0 && x < 1280 && y + 10 >= 0 && y + 10 < 720 && y_speed > 0 && arr[x / 40][(720 - y - 10) / 40] != 0) {
+        if (x >= 0 && x < 1280 && y + 10 > 0 && y + 10 <= 720 && y_speed > 0 && arr[x / 40][(720 - y - 10) / 40] != 0) {
             y = 720 - (720 - y - 10) / 40 * 40 - 50;
             y_speed *= -1;
         }
-        if (x + 10 >= 0 && x + 10 < 1280 && y >= 0 && y < 720 && arr[(x + 10) / 40][(720 - y) / 40] != 0) {
+        if (x + 10 >= 0 && x + 10 < 1280 && y > 0 && y <= 720 && arr[(x + 10) / 40][(720 - y) / 40] != 0) {
             x = (x + 10) / 40 * 40 - 10;
         }
-        if (x - 10 >= 0 && x - 10 < 1280 && y >= 0 && y < 720 && arr[(x - 10) / 40][(720 - y) / 40] != 0) {
+        if (x - 10 >= 0 && x - 10 < 1280 && y > 0 && y <= 720 && arr[(x - 10) / 40][(720 - y) / 40] != 0) {
             x = (x - 10) / 40 * 40 + 50;
         }
     }
     else {
-        if (x >= 0 && x < 1280 && y - 10 >= 0 && y - 10 < 720 && arr[x / 40][(720 - y + 10) / 40] != 0) {
+        if (x >= 0 && x < 1280 && y - 10 > 0 && y - 10 <= 720 && arr[x / 40][(720 - y + 10) / 40] != 0) {
             y_speed = 9;
             player_state = STATE::YELLOW;
             setObjectImage(player, "Images/yellow.png");
         }
-        else if (x >= 0 && x < 1280 && y + 10 >= 0 && y + 10 < 720 && arr[x / 40][(720 - y - 10) / 40] != 0) {
+        else if (x >= 0 && x < 1280 && y + 10 > 0 && y + 10 <= 720 && arr[x / 40][(720 - y - 10) / 40] != 0) {
             player_state = STATE::YELLOW;
             y_speed = -1;
             setObjectImage(player, "Images/yellow.png");
         }
-        else if (x + 10 >= 0 && x + 10 < 1280 && y >= 0 && y < 720 && player_state == STATE::RED && arr[(x + 10) / 40][(720 - y) / 40] != 0) {
+        else if (x + 10 >= 0 && x + 10 < 1280 && y > 0 && y <= 720 && player_state == STATE::RED && arr[(x + 10) / 40][(720 - y) / 40] != 0) {
             player_state = STATE::YELLOW;
             x = (x + 10) / 40 * 40 - 10;
             setObjectImage(player, "Images/yellow.png");
         }
-        else if (x - 10 >= 0 && x - 10 < 1280 && y >= 0 && y < 720 && player_state == STATE::PURPLE && arr[(x - 10) / 40][(720 - y) / 40] != 0) {
+        else if (x - 10 >= 0 && x - 10 < 1280 && y > 0 && y <= 720 && player_state == STATE::PURPLE && arr[(x - 10) / 40][(720 - y) / 40] != 0) {
             player_state = STATE::YELLOW;
             x = (x - 10) / 40 * 40 + 50;
             setObjectImage(player, "Images/yellow.png");
@@ -398,16 +398,16 @@ void tick() {
     locateObject(player, scene3, x - 10, y - 10);
 
     if (y <= 0) map_load(stage);
-    else if (y > 22 && arr[x / 40][(720 - y + 22) / 40] == 2) {
+    else if (x >= 0 && x < 1280 && y - 22 > 0 && y - 22 <= 720 && arr[x / 40][(720 - y + 22) / 40] == 2) {
         map_load(stage);
     }
-    else if (y < 698 && arr[x / 40][(720 - y - 22) / 40] == 3) {
+    else if (x >= 0 && x < 1280 && y + 22 > 0 && y + 22 <= 720 && arr[x / 40][(720 - y - 22) / 40] == 3) {
         map_load(stage);
     }
-    else if (arr[(x + 22) / 40][(720 - y) / 40] == 4) {
+    else if (x + 22 >= 0 && x + 22 < 1280 && y > 0 && y <= 720 && arr[(x + 22) / 40][(720 - y) / 40] == 4) {
         map_load(stage);
     }
-    else if (arr[(x - 22) / 40][(720 - y) / 40] == 5) {
+    else if (x - 22 >= 0 && x - 22 < 1280 && y > 0 && y <= 720 && arr[(x - 22) / 40][(720 - y) / 40] == 5) {
         map_load(stage);
     }
 
@@ -525,11 +525,13 @@ void keyboardCallback(int keycode, KeyState state)
     {
         setObjectImage(player, "Images/red.png");
         player_state = STATE::RED;
+        y_speed = 0;
     }
     else if (keycode == 31 && state == KeyState::KEYBOARD_PRESSED)
     {
         setObjectImage(player, "Images/purple.png");
         player_state = STATE::PURPLE;
+        y_speed = 0;
     }
     else if (keycode == 82 && state == KeyState::KEYBOARD_PRESSED) {
         x_speed = -5;
