@@ -3,7 +3,7 @@
 #include "game.h"
 
 const int G = 1;
-const int TPS = 50;
+const int TPS = 30;
 
 enum class STATE { YELLOW, BLUE, RED, PURPLE };
 
@@ -70,32 +70,26 @@ void end()
 
 
         }
-        if (isAllStar)
-        {
+        if (isAllStar && !excellent[0]) {
             showObject(ex1);
             excellent[0] = true;
-        }
-        for (int i = 0; i < 3; i++)
-        {
-
-            if (excellent[i] == false)
-            {
-                isAllExcellent = false;
-                break;
+            
+            for (int i = 0; i < 3; i++) {
+                if (!excellent[i]) {
+                    isAllExcellent = false;
+                    break;
+                }
             }
-
-        }
-        if (isAllExcellent)
-        {
-            stage = 4;
-            map_load(stage);
+            if (isAllExcellent) {
+                stage = 4;
+                map_load(stage);
+            }
         }
         else {
             isStarted = false;
             stage = 0;
             enterScene(scene2);
         }
-
     }
     else if (stage == 2)
     {
@@ -111,25 +105,20 @@ void end()
                 break;
             }
         }
-        if (isAllStar)
-        {
+        if (isAllStar && !excellent[1]) {
             showObject(ex2);
             excellent[1] = true;
-        }
-        for (int i = 0; i < 3; i++)
-        {
-
-            if (excellent[i] == false)
-            {
-                isAllExcellent = false;
-                break;
+            
+            for (int i = 0; i < 3; i++) {
+                if (!excellent[i]) {
+                    isAllExcellent = false;
+                    break;
+                }
             }
-
-        }
-        if (isAllExcellent)
-        {
-            stage = 4;
-            map_load(stage);
+            if (isAllExcellent) {
+                stage = 4;
+                map_load(stage);
+            }
         }
         else {
             isStarted = false;
@@ -150,25 +139,20 @@ void end()
             }
 
         }
-        if (isAllStar)
-        {
+        if (isAllStar && !excellent[2]) {
             showObject(ex3);
             excellent[2] = true;
-        }
-        for (int i = 0; i < 3; i++)
-        {
-
-            if (!excellent[i])
-            {
-                isAllExcellent = false;
-                break;
+            
+            for (int i = 0; i < 3; i++) {
+                if (!excellent[i]) {
+                    isAllExcellent = false;
+                    break;
+                }
             }
-
-        }
-        if (isAllExcellent)
-        {
-            stage = 4;
-            map_load(stage);
+            if (isAllExcellent) {
+                stage = 4;
+                map_load(stage);
+            }
         }
         else {
             isStarted = false;
@@ -373,38 +357,38 @@ void tick() {
 
         if (y_speed > -10) y_speed -= G;
 
-        if (x / 40 >= 0 && x / 40 < 32 && (720 - y + 10) / 40 >= 0 && (720 - y + 10) / 40 < 18 && arr[x / 40][(720 - y + 10) / 40] != 0) {
+        if (x >= 0 && x < 1280 && y - 10 >= 0 && y - 10 < 720 && arr[x / 40][(720 - y + 10) / 40] != 0) {
             y = 720 - (720 - y + 10) / 40 * 40 + 10;
             y_speed = player_state == STATE::YELLOW ? 9 : 13;
         }
-        if (x / 40 >= 0 && x / 40 < 32 && (720 - y - 10) / 40 >= 0 && (720 - y - 10) / 40 < 18 && y_speed > 0 && arr[x / 40][(720 - y - 10) / 40] != 0) {
+        if (x >= 0 && x < 1280 && y + 10 >= 0 && y + 10 < 720 && y_speed > 0 && arr[x / 40][(720 - y - 10) / 40] != 0) {
             y = 720 - (720 - y - 10) / 40 * 40 - 50;
             y_speed *= -1;
         }
-        if ((x + 10) / 40 >= 0 && (x + 10) / 40 < 32 && (720 - y) / 40 >= 0 && (720 - y) / 40 < 18 && arr[(x + 10) / 40][(720 - y) / 40] != 0) {
+        if (x + 10 >= 0 && x + 10 < 1280 && y >= 0 && y < 720 && arr[(x + 10) / 40][(720 - y) / 40] != 0) {
             x = (x + 10) / 40 * 40 - 10;
         }
-        if ((x - 10) / 40 >= 0 && (x - 10) / 40 < 32 && (720 - y) / 40 >= 0 && (720 - y) / 40 < 18 && arr[(x - 10) / 40][(720 - y) / 40] != 0) {
+        if (x - 10 >= 0 && x - 10 < 1280 && y >= 0 && y < 720 && arr[(x - 10) / 40][(720 - y) / 40] != 0) {
             x = (x - 10) / 40 * 40 + 50;
         }
     }
     else {
-        if (x / 40 >= 0 && x / 40 < 32 && (720 - y + 10) / 40 >= 0 && (720 - y + 10) / 40 < 18 && arr[x / 40][(720 - y + 10) / 40] != 0) {
+        if (x >= 0 && x < 1280 && y - 10 >= 0 && y - 10 < 720 && arr[x / 40][(720 - y + 10) / 40] != 0) {
             y_speed = 9;
             player_state = STATE::YELLOW;
             setObjectImage(player, "Images/yellow.png");
         }
-        else if (x / 40 >= 0 && x / 40 < 32 && (720 - y - 10) / 40 >= 0 && (720 - y - 10) / 40 < 18 && y_speed > 0 && arr[x / 40][(720 - y - 10) / 40] != 0) {
+        else if (x >= 0 && x < 1280 && y + 10 >= 0 && y + 10 < 720 && arr[x / 40][(720 - y - 10) / 40] != 0) {
             player_state = STATE::YELLOW;
             y_speed = -1;
             setObjectImage(player, "Images/yellow.png");
         }
-        else if ((x + 10) / 40 >= 0 && (x + 10) / 40 < 32 && (720 - y) / 40 >= 0 && (720 - y) / 40 < 18 && player_state == STATE::RED && arr[(x + 10) / 40][(720 - y) / 40] != 0) {
+        else if (x + 10 >= 0 && x + 10 < 1280 && y >= 0 && y < 720 && player_state == STATE::RED && arr[(x + 10) / 40][(720 - y) / 40] != 0) {
             player_state = STATE::YELLOW;
             x = (x + 10) / 40 * 40 - 10;
             setObjectImage(player, "Images/yellow.png");
         }
-        else if ((x - 10) / 40 >= 0 && (x - 10) / 40 < 32 && (720 - y) / 40 >= 0 && (720 - y) / 40 < 18 && player_state == STATE::PURPLE && arr[(x - 10) / 40][(720 - y) / 40] != 0) {
+        else if (x - 10 >= 0 && x - 10 < 1280 && y >= 0 && y < 720 && player_state == STATE::PURPLE && arr[(x - 10) / 40][(720 - y) / 40] != 0) {
             player_state = STATE::YELLOW;
             x = (x - 10) / 40 * 40 + 50;
             setObjectImage(player, "Images/yellow.png");
@@ -582,6 +566,10 @@ int main()
     setMouseCallback(mouseCallback);
     setKeyboardCallback(keyboardCallback);
     setTimerCallback(timerCallback);
+    
+    setGameOption(GameOption::GAME_OPTION_INVENTORY_BUTTON, false);
+    setGameOption(GameOption::GAME_OPTION_MESSAGE_BOX_BUTTON, false);
+    setGameOption(GameOption::GAME_OPTION_ROOM_TITLE, false);
 
     timer = createTimer(1.f / TPS);
 
