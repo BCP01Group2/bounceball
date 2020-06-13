@@ -357,8 +357,6 @@ void map_load(int stage)
 }
 
 void tick() {
-    locateObject(player, scene3, x - 10, y - 10);
-
     for (int i = 0; i < 70; i++) {
         if (eatStar[i]) continue;
         if (starPoints[i][0] <= x && x <= starPoints[i][0] + 30 && starPoints[i][1] <= y && y <= starPoints[i][1] + 30) {
@@ -370,49 +368,50 @@ void tick() {
     if (ex <= x && x <= ex + 40 && ey <= y && y <= ey + 40) end();
 
     if (player_state == STATE::YELLOW || player_state == STATE::BLUE) {
+        x += x_speed;
         y += y_speed;
 
         if (y_speed > -10) y_speed -= G;
 
-        if (y > 10 && arr[x / 40][(720 - y + 10) / 40] != 0) {
+        if (x / 40 >= 0 && x / 40 < 32 && (720 - y + 10) / 40 >= 0 && (720 - y + 10) / 40 < 18 && arr[x / 40][(720 - y + 10) / 40] != 0) {
             y = 720 - (720 - y + 10) / 40 * 40 + 10;
             y_speed = player_state == STATE::YELLOW ? 9 : 13;
         }
-        else if (y < 710 && y_speed > 0 && arr[x / 40][(720 - y - 10) / 40] != 0) {
+        if (x / 40 >= 0 && x / 40 < 32 && (720 - y - 10) / 40 >= 0 && (720 - y - 10) / 40 < 18 && y_speed > 0 && arr[x / 40][(720 - y - 10) / 40] != 0) {
             y = 720 - (720 - y - 10) / 40 * 40 - 50;
             y_speed *= -1;
         }
-        else if (arr[(x + 10) / 40][(720 - y) / 40] != 0) {
+        if ((x + 10) / 40 >= 0 && (x + 10) / 40 < 32 && (720 - y) / 40 >= 0 && (720 - y) / 40 < 18 && arr[(x + 10) / 40][(720 - y) / 40] != 0) {
             x = (x + 10) / 40 * 40 - 10;
         }
-        else if (arr[(x - 10) / 40][(720 - y) / 40] != 0) {
+        if ((x - 10) / 40 >= 0 && (x - 10) / 40 < 32 && (720 - y) / 40 >= 0 && (720 - y) / 40 < 18 && arr[(x - 10) / 40][(720 - y) / 40] != 0) {
             x = (x - 10) / 40 * 40 + 50;
         }
-        else x += x_speed;
     }
     else {
-        if (y > 10 && arr[x / 40][(720 - y + 10) / 40] != 0) {
+        if (x / 40 >= 0 && x / 40 < 32 && (720 - y + 10) / 40 >= 0 && (720 - y + 10) / 40 < 18 && arr[x / 40][(720 - y + 10) / 40] != 0) {
             y_speed = 9;
             player_state = STATE::YELLOW;
             setObjectImage(player, "Images/yellow.png");
         }
-        else if (y < 710 && arr[x / 40][(720 - y - 10) / 40] != 0) {
+        else if (x / 40 >= 0 && x / 40 < 32 && (720 - y - 10) / 40 >= 0 && (720 - y - 10) / 40 < 18 && y_speed > 0 && arr[x / 40][(720 - y - 10) / 40] != 0) {
             player_state = STATE::YELLOW;
             y_speed = -1;
             setObjectImage(player, "Images/yellow.png");
         }
-        else if (player_state == STATE::RED && arr[(x + 10) / 40][(720 - y) / 40] != 0) {
+        else if ((x + 10) / 40 >= 0 && (x + 10) / 40 < 32 && (720 - y) / 40 >= 0 && (720 - y) / 40 < 18 && player_state == STATE::RED && arr[(x + 10) / 40][(720 - y) / 40] != 0) {
             player_state = STATE::YELLOW;
             x = (x + 10) / 40 * 40 - 10;
             setObjectImage(player, "Images/yellow.png");
         }
-        else if (player_state == STATE::PURPLE && arr[(x - 10) / 40][(720 - y) / 40] != 0) {
+        else if ((x - 10) / 40 >= 0 && (x - 10) / 40 < 32 && (720 - y) / 40 >= 0 && (720 - y) / 40 < 18 && player_state == STATE::PURPLE && arr[(x - 10) / 40][(720 - y) / 40] != 0) {
             player_state = STATE::YELLOW;
             x = (x - 10) / 40 * 40 + 50;
             setObjectImage(player, "Images/yellow.png");
         }
         else x += player_state == STATE::RED ? 10 : -10;
     }
+    locateObject(player, scene3, x - 10, y - 10);
 
     if (y <= 0) map_load(stage);
     else if (y > 22 && arr[x / 40][(720 - y + 22) / 40] == 2) {
