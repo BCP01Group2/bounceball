@@ -1,10 +1,9 @@
 # bounceball
 
-<iframe width="640" height="360" src="https://youtu.be/3o-GwoS8b7Q" frameborder="0" gesture="media" allowfullscreen=""></iframe>
-
 ## 게임 설명
 > 볼의 다양한 기능을 활용하여 장애물을 피하고 목적지까지 도달하세요!
 > 모든 별을 모은다면 Excellent로 맵을 클리어할 수 있습니다.
+> https://youtu.be/3o-GwoS8b7Q
 
 ## 기본조작법(키보드조작법)
 > 숫자키를 사용하여 볼의 기능을 사용할 수 있습니다.
